@@ -16,7 +16,7 @@ class VSGP(PyroModule):
         self.jitter = jitter
 
         # (num_inducing_points, num_input_dim)
-        self.Z = PyroParam(Z)
+        self.Z = PyroParam(Z.clone())
         # (num_output_dim, num_inducing_points)
         self.u_loc = PyroParam(torch.zeros(self.num_output_dim, self.Z.shape[0]))
         # (num_output_dim, num_inducing_points, num_inducing_points)
