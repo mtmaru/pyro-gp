@@ -37,7 +37,7 @@ class SVSGP(PyroModule):
         # (num_output_dim, num_inducing_points, num_inducing_points)
         Kuu = self.kernel(self.Z, self.Z)
         Kuu = Kuu.repeat([self.num_output_dim, 1, 1])
-        Kuu = Kuu + torch.eye(Kuu.shape[0]).repeat([self.num_output_dim, 1, 1]) * self.jitter
+        Kuu = Kuu + torch.eye(self.Z.shape[0]).repeat([self.num_output_dim, 1, 1]) * self.jitter
 
         if self.whiten:
             # (num_output_dim, num_inducing_points)
@@ -93,7 +93,7 @@ class SVSGP(PyroModule):
         # (num_output_dim, num_inducing_points, num_inducing_points)
         Kuu = self.kernel(self.Z, self.Z)
         Kuu = Kuu.repeat([self.num_output_dim, 1, 1])
-        Kuu = Kuu + torch.eye(Kuu.shape[0]).repeat([self.num_output_dim, 1, 1]) * self.jitter
+        Kuu = Kuu + torch.eye(self.Z.shape[0]).repeat([self.num_output_dim, 1, 1]) * self.jitter
 
         # (num_output_dim, num_inducing_points)
         u = pyro.sample("u", dist.MultivariateNormal(

@@ -32,7 +32,7 @@ class VGP(PyroModule):
         # (num_output_dim, num_data_points, num_data_points)
         Kff = self.kernel(self.X, self.X)
         Kff = Kff.repeat([self.num_output_dim, 1, 1])
-        Kff = Kff + torch.eye(Kff.shape[0]).repeat([self.num_output_dim, 1, 1]) * self.jitter
+        Kff = Kff + torch.eye(self.X.shape[0]).repeat([self.num_output_dim, 1, 1]) * self.jitter
 
         if self.whiten:
             # (num_output_dim, num_data_points)
@@ -82,7 +82,7 @@ class VGP(PyroModule):
             # (num_output_dim, num_data_points, num_data_points)
             Kff = self.kernel(self.X, self.X)
             Kff = Kff.repeat([self.num_output_dim, 1, 1])
-            Kff = Kff + torch.eye(Kff.shape[0]).repeat([self.num_output_dim, 1, 1]) * self.jitter
+            Kff = Kff + torch.eye(self.X.shape[0]).repeat([self.num_output_dim, 1, 1]) * self.jitter
             # (num_output_dim, num_data_points, num_newdata_points)
             Kfg = self.kernel(self.X, Xnew)
             Kfg = Kfg.repeat([self.num_output_dim, 1, 1])
