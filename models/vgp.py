@@ -78,7 +78,7 @@ class VGP(PyroModule):
     def forward(self, Xnew, num_samples):
         # Xnew.shape = (num_newdata_points, num_input_dim)
 
-        with pyro.plate("new", size = num_samples):
+        with pyro.plate(self._pyro_get_fullname("new"), size = num_samples):
             # (num_output_dim, num_data_points, num_data_points)
             Kff = self.kernel(self.X, self.X)
             Kff = Kff.repeat([self.num_output_dim, 1, 1])

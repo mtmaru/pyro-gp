@@ -70,7 +70,7 @@ class SVSGP(PyroModule):
             ).to_event(u_loc.dim() - 1))
 
         if y is not None:
-            with pyro.plate("obs", size = X.shape[0], subsample_size = self.subsample_size) as index:
+            with pyro.plate(self._pyro_get_fullname("obs"), size = X.shape[0], subsample_size = self.subsample_size) as index:
                 # (subsample_size, num_input_dim)
                 X = X.index_select(0, index)
                 # (num_output_dim, subsample_size)
@@ -112,7 +112,7 @@ class SVSGP(PyroModule):
             u = u.squeeze(1)
 
         if y is not None:
-            with pyro.plate("obs", size = X.shape[0], subsample_size = self.subsample_size) as index:
+            with pyro.plate(self._pyro_get_fullname("obs"), size = X.shape[0], subsample_size = self.subsample_size) as index:
                 # (subsample_size, num_input_dim)
                 X = X.index_select(0, index)
                 # (num_output_dim, num_data_points)
