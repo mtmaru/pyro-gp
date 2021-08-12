@@ -3,6 +3,7 @@ import pyro
 from pyro.nn import PyroModule, PyroParam, pyro_method
 import pyro.distributions as dist
 from torch.distributions import constraints
+from pyro import poutine
 from pyro.infer import Predictive
 
 class VSGP(PyroModule):
@@ -26,7 +27,7 @@ class VSGP(PyroModule):
         )
 
     @pyro_method
-    def model(self, X, y = None):
+    def model(self, X, y = None, num_data = None):
         # X.shape = (num_data_points, num_input_dim)
         # y.shape = (num_data_points, num_output_dim)
 
@@ -68,15 +69,17 @@ class VSGP(PyroModule):
                 covariance_matrix = u_cov
             ).to_event(u_loc.dim() - 1))
 
-        # (num_output_dim, num_data_points)
-        f = self.sample_f(X, u, Kuu)
-        # (num_output_dim, num_data_points)
-        y = self.likelihood(f, y)
+        num_data = X.shape[0] if num_data is None else num_data
+        with poutine.scale(scale = num_data / X.shape[0]):
+            # (num_output_dim, num_data_points)
+            f = self.sample_f(X, u, Kuu)
+            # (num_output_dim, num_data_points)
+            y = self.likelihood(f, y)
 
         return y
 
     @pyro_method
-    def guide(self, X, y = None):
+    def guide(self, X, y = None, num_data = None):
         # X.shape = (num_data_points, num_input_dim)
         # y.shape = (num_data_points, num_output_dim)
 
@@ -101,8 +104,10 @@ class VSGP(PyroModule):
             # (num_output_dim, num_inducing_points)
             u = u.squeeze(1)
 
-        # (num_output_dim, num_data_points)
-        f = self.sample_f(X, u, Kuu)
+        num_data = X.shape[0] if num_data is None else num_data
+        with poutine.scale(scale = num_data / X.shape[0]):
+            # (num_output_dim, num_data_points)
+            f = self.sample_f(X, u, Kuu)
 
     def sample_f(self, X, u, Kuu):
         # X.shape = (num_data_points, num_input_dim)
