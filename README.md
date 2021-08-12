@@ -13,12 +13,12 @@
 
 ## 実装したガウス過程の種類
 
-* Variational Gaussian Process (変分ガウス過程)
-* Variational Sparse Gaussian Process (変分スパースガウス過程)
-* Stochastic Variational Sparse Gaussian Process (確率的変分スパースガウス過程)
+* Variational Gaussian Process (変分ガウス過程) [1], [2], [3]
+* Variational Sparse Gaussian Process (変分スパースガウス過程) [1], [2], [3]
+* Stochastic Variational Sparse Gaussian Process (確率的変分スパースガウス過程) [1], [2], [3]
 
 ## 参考文献
 
-* 持橋大地, 大羽成征. ガウス過程と機械学習. 講談社. 2019.
-* 須山敦志. ベイズ深層学習. 講談社. 2019.
-* [Pyro公式の実装](https://github.com/pyro-ppl/pyro/tree/dev/pyro/contrib/gp)
+* [1] 持橋大地, 大羽成征. "ガウス過程と機械学習". 講談社. 2019.
+* [2] 須山敦志. "ベイズ深層学習". 講談社. 2019.
+* [3] [Pyro公式の実装](https://github.com/pyro-ppl/pyro/tree/dev/pyro/contrib/gp)
