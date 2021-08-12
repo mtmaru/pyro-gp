@@ -44,7 +44,7 @@ class VSGP(PyroModule):
             # (num_output_dim, num_inducing_points, num_inducing_points)
             u_cov = torch.eye(self.Z.shape[0]).repeat([self.num_output_dim, 1, 1])
             # (num_output_dim, num_inducing_points)
-            u = pyro.sample("u", dist.MultivariateNormal(
+            u = pyro.sample(self._pyro_get_fullname("u"), dist.MultivariateNormal(
                 loc = u_loc,
                 covariance_matrix = u_cov
             ).to_event(u_loc.dim() - 1))
@@ -63,7 +63,7 @@ class VSGP(PyroModule):
             # (num_output_dim, num_inducing_points, num_inducing_points)
             u_cov = Kuu
             # (num_output_dim, num_inducing_points)
-            u = pyro.sample("u", dist.MultivariateNormal(
+            u = pyro.sample(self._pyro_get_fullname("u"), dist.MultivariateNormal(
                 loc = u_loc,
                 covariance_matrix = u_cov
             ).to_event(u_loc.dim() - 1))
@@ -84,7 +84,7 @@ class VSGP(PyroModule):
         Kuu = Kuu + torch.eye(self.Z.shape[0]).repeat([self.num_output_dim, 1, 1]) * self.jitter
 
         # (num_output_dim, num_inducing_points)
-        u = pyro.sample("u", dist.MultivariateNormal(
+        u = pyro.sample(self._pyro_get_fullname("u"), dist.MultivariateNormal(
             loc = self.u_loc,
             covariance_matrix = self.u_cov
         ).to_event(self.u_loc.dim() - 1))
@@ -130,7 +130,7 @@ class VSGP(PyroModule):
         # (num_output_dim, num_data_points)
         f_var = f_cov.diagonal(0, 2)
         # (num_output_dim, num_data_points)
-        f = pyro.sample("f", dist.Normal(
+        f = pyro.sample(self._pyro_get_fullname("f"), dist.Normal(
             loc = f_loc,
             scale = f_var.sqrt()
         ).to_event(f_loc.dim()))
@@ -146,9 +146,12 @@ class VSGP(PyroModule):
             model = self.model,
             guide = self.guide,
             num_samples = num_samples,
-            return_sites = ["f", "y"]
+            return_sites = [self._pyro_get_fullname("f"), self.likelihood._pyro_get_fullname("y")]
         )
         samples = predictive.get_samples(X)
 
         # (num_data_points, num_output_dim), (num_data_points, num_output_dim)
-        return samples["f"].transpose(-1, -2), samples["y"].transpose(-1, -2)
+        return (
+            samples[self._pyro_get_fullname("f")].transpose(-1, -2),
+            samples[self.likelihood._pyro_get_fullname("y")].transpose(-1, -2)
+        )

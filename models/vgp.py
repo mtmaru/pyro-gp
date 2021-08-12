@@ -40,7 +40,7 @@ class VGP(PyroModule):
             # (num_output_dim, num_data_points, num_data_points)
             f_cov = torch.eye(self.X.shape[0]).repeat([self.num_output_dim, 1, 1])
             # (num_output_dim, num_data_points)
-            f = pyro.sample("f", dist.MultivariateNormal(
+            f = pyro.sample(self._pyro_get_fullname("f"), dist.MultivariateNormal(
                 loc = f_loc,
                 covariance_matrix = f_cov
             ).to_event(f_loc.dim() - 1))
@@ -59,7 +59,7 @@ class VGP(PyroModule):
             # (num_output_dim, num_data_points, num_data_points)
             f_cov = Kff
             # (num_output_dim, num_data_points)
-            f = pyro.sample("f", dist.MultivariateNormal(
+            f = pyro.sample(self._pyro_get_fullname("f"), dist.MultivariateNormal(
                 loc = f_loc,
                 covariance_matrix = f_cov
             ).to_event(f_loc.dim() - 1))
@@ -70,7 +70,7 @@ class VGP(PyroModule):
     @pyro_method
     def guide(self):
         # (num_output_dim, num_data_points)
-        f = pyro.sample("f", dist.MultivariateNormal(
+        f = pyro.sample(self._pyro_get_fullname("f"), dist.MultivariateNormal(
             loc = self.f_loc,
             covariance_matrix = self.f_cov
         ).to_event(self.f_loc.dim() - 1))
@@ -125,7 +125,7 @@ class VGP(PyroModule):
             # (num_output_dim, num_newdata_points)
             g_var = g_cov.diagonal(0, 2)
             # (num_output_dim, num_newdata_points)
-            g = pyro.sample("g", dist.Normal(
+            g = pyro.sample(self._pyro_get_fullname("g"), dist.Normal(
                 loc = g_loc,
                 scale = g_var.sqrt()
             ).to_event(g_loc.dim()))
