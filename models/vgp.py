@@ -67,6 +67,8 @@ class VGP(PyroModule):
         # (num_output_dim, num_data_points)
         y = self.likelihood(f, self.y)
 
+        return y
+
     @pyro_method
     def guide(self):
         # (num_output_dim, num_data_points)

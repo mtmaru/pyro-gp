@@ -85,6 +85,8 @@ class SVSGP(PyroModule):
             # (num_output_dim, num_data_points)
             y = self.likelihood(f, y)
 
+        return y
+
     @pyro_method
     def guide(self, X, y = None):
         # X.shape = (num_data_points, num_input_dim)
