@@ -18,6 +18,8 @@
 * Stochastic Variational Sparse Gaussian Process (確率的変分スパースガウス過程) [1], [2], [3]
 * Heteroscedastic Gaussian Process Regression (異分散ガウス過程回帰？) [4]
 
+詳細は[同時分布と変分事後分布の式](/model-and-guide.ipynb)を参照。
+
 ## 参考文献
 
 * [1] 持橋大地, 大羽成征. "ガウス過程と機械学習". 講談社. 2019.
