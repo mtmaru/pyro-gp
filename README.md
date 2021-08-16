@@ -26,8 +26,10 @@
     * 実行例1：[異分散ガウス過程による回帰 (変分推論)](/examples/reg_VSHGPR.ipynb)
     * 実行例2：[異分散ガウス過程による回帰 (確率的変分推論)](/examples/reg_SVSHGPR.ipynb)
 * Relevance Vector Machine (関連ベクトルマシン) [5]
-    * 実行例1：[関連ベクトルマシンによる二値分類 (変分推論)](/examples/binary_RVM_VSGP.ipynb)
-    * 実行例2：[関連ベクトルマシンによる二値分類 (確率的変分推論)](/examples/binary_RVM_SVSGP.ipynb)
+    * 実行例1：[関連ベクトルマシンによる二値分類 (変分推論、データ点のARD)](/examples/binary_RVM_VSGP.ipynb)
+    * 実行例2：[関連ベクトルマシンによる二値分類 (確率的変分推論、データ点のARD)](/examples/binary_RVM_SVSGP.ipynb)
+    * 実行例3：[関連ベクトルマシンによる二値分類 (変分推論、誘導点のARD)](/examples/binary_RVM_VSGP_Z.ipynb)
+    * 実行例4：[関連ベクトルマシンによる二値分類 (確率的変分推論、誘導点のARD)](/examples/binary_RVM_SVSGP_Z.ipynb)
 
 詳細は[同時分布と変分事後分布の式](/model-and-guide.ipynb)を参照。
 
